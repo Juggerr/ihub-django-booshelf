@@ -1,0 +1,12 @@
+Django==1.8.5
+Pygments==2.0.2
+argparse==1.2.1
+blessings==1.6
+bpython==0.14.2
+curtsies==0.1.19
+django-bootstrap3==6.2.2
+django-registration==1.0
+greenlet==0.4.9
+requests==2.8.1
+six==1.10.0
+wsgiref==0.1.2

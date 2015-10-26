@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class='row'>
+        <div class='col-md-6 col-md-offset-3'>
+            <form class="new_user" id="new_user" action="/users" accept-charset="UTF-8" method="post">
+                <input name="utf8" type="hidden" value="&#x2713;" />
+                <input type="hidden" name="authenticity_token" value="1Ae8ydGP2Bh2CnaqjgLyETiIfLKMLQpS0stWflt3m5n7gYkCqq7M2dz83w9vXoNiZ8jXa0fBHcT/wytXDXeYCA==" />
+                <div class='form-group'>
+                    <label for="user_name">Usrename</label>
+                    <input class="form-control" type="text" name="username" id="user_name" />
+                </div>
+                <div class='form-group'>
+                    <label for="user_email">Email</label>
+                    <input class="form-control" type="text" name="email" id="user_email" />
+                </div>
+                <div class='form-group'>
+                    <label for="user_password">Password</label>
+                    <input class="form-control" type="password" name="password1" id="user_password" />
+                </div>
+                <div class='form-group'>
+                    <label for="user_password_confirmation">Password confirmation</label>
+                    <input class="form-control" type="password" name="password2" id="user_password_confirmation" />
+                </div>
+                <div>
+                    <input type="submit" name="commit" value="Sign up" class="btn btn-lg btn-primary btn-block" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

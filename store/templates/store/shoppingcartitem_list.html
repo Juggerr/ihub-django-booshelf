@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block content %}
+<h1 class="text-center">
+Shopping cart
+</h1>
+<hr/>
+
+<div class="alert alert-info text-center shopping-cart-info-message" role="alert">
+    {% if shoppingcartitem_list|length %}
+        <div class="pull-left">
+            You have {{ shoppingcartitem_list|length }} items in your shopping cart. Total price: 
+            <span>${{ shoppingcartitem_list|get_total_price }}</span>
+        </div>
+        <div class="pull-right">
+            <form class="button_to" method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <input class="btn btn-primary btn-md" type="submit" value="Checkout">
+            </form>
+        </div>
+    {% else %}
+        <div>You do not have any books in your cart yet</div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        
+        {% for shopping_cart in shoppingcartitem_list %}
+        <div class="row">
+            <div class="col-md-3 book-cover-mini">
+                <a title="District Intranet Technician" href="{% url 'book' shopping_cart.book.id  %}"><img alt="District Intranet Technician" src="http://images.amazon.com/images/P/1941222196.01.ZTZZZZZZ.jpg"></a>
+            </div>
+            <div class="col-md-6">
+                <h2><a title="District Intranet Technician" href="{% url 'book' shopping_cart.book.id  %}">{{ shopping_cart.book.title }}</a></h2>
+                <h5>
+                by {{ shopping_cart.book.author }} (Author)
+                </h5>
+            </div>
+            <div class="col-md-3">
+                <p class="shopping-cart-price-box text-center">${{ shopping_cart.book.price }}</p>
+                <div class="text-center">
+                    <form class="button_to" method="post" action="{% url 'shopping-cart-delete' shopping_cart.pk %}">
+                        <!--<input type="hidden" name="_method" value="delete">-->
+                        {% csrf_token %}
+                        <input data-confirm="Are you sure ?" class="btn btn-md btn-danger add-to-cart-btn" type="submit" value="Delete from cart">
+                        <!--{{ shopping_cart }}-->
+                        <!--<input type="hidden" name="authenticity_token" value="ybdgit5tlqXUGWFvvQZRhbN32NmPZa+TNCPLj5JLw4vt+AGGo/PhcFp8GyNWXwfNn23AOr+np8+Fpr2MzVox9g==">-->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

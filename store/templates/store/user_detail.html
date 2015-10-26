@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+    <h1 class='text-center'>
+        Profile
+    </h1>
+    <hr>
+
+    <div class='col-md-3 text-center'>
+        <img src="http://www.gravatar.com/avatar/77864601526fc73452f5c7f942ac4ff4?s=200" alt="77864601526fc73452f5c7f942ac4ff4?s=200" />
+        <p>
+            <form class="button_to" method="post" action="#">
+                <input type="hidden" name="_method" value="delete" />
+                <input data-confirm="Are you sure ?" class="btn btn-md btn-danger" type="submit" value="Delete account" />
+            </form>
+        </p>
+    </div>
+    <div class='col-md-4'>
+        <dl class='dl-horizontal user-profile-info'>
+            <dt>Name:</dt>
+            <dd>
+                <strong>{{ user.first_name }}</strong>
+            </dd>
+            <dt>Email:</dt>
+            <dd>
+                <strong>{{ user.email }}</strong>
+            </dd>
+            <dt>Orders:</dt>
+            <dd>
+                {{ user.shopping_cart_items_amount }}
+                <a href="{% url 'orders' %}">(view history)</a>
+            </dd>
+            <dt>Joined:</dt>
+            <dd>{{ user.date_joined }}</dd>
+        </dl>
+    </div>
+    <div class='col-md-5'>
+        <h4 class='text-center'>Recent reviews</h4>
+        <div class='alert alert-info alert-big text-center'>You have not wrote any review yet</div>
+    </div>
+</div>
+{% endblock %}

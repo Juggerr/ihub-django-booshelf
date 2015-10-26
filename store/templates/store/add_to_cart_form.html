@@ -1,0 +1,8 @@
+{% load bootstrap3 %}
+
+<form method="post" action="{% url 'book-add-to-cart' %}">
+    {% csrf_token %}
+    <input type="text" name="book_pk" value="{{ book.pk }}"/>
+    <input type="submit" value="Submit"/>
+    {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
+</form>

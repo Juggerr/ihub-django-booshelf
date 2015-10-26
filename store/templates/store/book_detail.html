@@ -1,0 +1,97 @@
+{% extends 'base.html' %} 
+{% load store_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="clearfix"></div>
+
+    <div class="col-md-3 book-cover-lg">
+        <p class="text-center">
+            <img alt="District Intranet Technician" src="http://images.amazon.com/images/P/{{ book.amazon_id }}.01.ZTZZZZZZ.jpg">
+        </p>
+        {% if user.is_superuser %}
+        <div class="pull-left">
+            <a class="btn btn-md btn-warning book-edit-link" href="{% url 'book-edit' book.id %}">Edit</a>
+        </div>
+        <div class="pull-right">
+            <form class="button_to" method="post" action="/books/1">
+                <input type="hidden" name="_method" value="delete">
+                <input data-confirm="Are you sure ?" class="btn btn-md btn-danger book-delete-link" type="submit" value="Delete">
+                <input type="hidden" name="authenticity_token" value="mvyHpTpHMLirvLR1B2wydcK9ZV8pbIUnZa3yrAeA9y6+s+apR9lHbSXZzjnsNWQ97qd9vBmujXvUKISvWJEFUw==">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-7 book-info-block">
+        <h1>{{ book.title }}</h1>
+        <p>
+            <strong>by {{ book.author }}</strong>
+        </p>
+        <p>
+            <strong>ISBN-10: </strong> {{ book.isbn }}
+        </p>
+        <p>
+            <strong>Published: </strong> {{ book.pub_date }}
+        </p>
+        <p></p>
+        {{ book.description|safe }}
+        <p></p>
+    </div>
+    <div class="col-md-2 book-price-block">
+        <p class="text-center price-box">${{ book.price }}</p>
+        <div class="text-center">
+            {% if user.is_authenticated %}
+                {% if user.userinfo|args:book|call:"has_book_in_shopping_cart" %}
+                    <input class="btn btn-md add-to-cart-btn" disabled="disabled" type="submit" value="Added">
+                {% else %}
+                    <form class="button_to" method="post" action="{% url 'book-add-to-cart' %}">
+                        {% csrf_token %}
+                        <input class="btn btn-md btn-primary add-to-cart-btn" type="submit" value="Add to cart" />
+                        <input type="hidden" name="book_id" value="{{ book.id }}" />
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1" id="reviews">
+        <hr>
+        <h4 class="text-center">Customer reviews</h4> 
+        {% for review in book.review_set.all %}
+        <div class="review-block">
+            <a data-confirm="Are you sure?" class="pull-right delete-review" title="Delete review" data-remote="true" rel="nofollow" data-method="delete" href="/books/1/reviews/1">
+                <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+            </a>
+            <p class="review-author">
+                By
+                <span class="review-user-name">{{ review.user.first_name }}</span> on July 01, 2015
+            </p>
+            <p class="review-text">
+                {{ review.text|safe }}
+            </p>
+            <hr>
+        </div>
+        {% endfor %}
+        <div class="add-review-block">
+            <form role="form" class="new_review" id="new_review" action="/books/1/reviews" accept-charset="UTF-8" data-remote="true" method="post">
+                <input name="utf8" type="hidden" value="✓">
+                <div class="form-group">
+                    <label for="review_text">Add your review/opinion:</label>
+                    <textarea class="form-control" name="review[text]" id="review_text"></textarea>
+                </div>
+                <div class="actions">
+                    <input type="submit" name="commit" value="Send" class="btn btn-md btn-primary">
+                </div>
+            </form>
+        </div>
+        <hr>
+
+    </div>
+</div>
+
+{% endblock %}

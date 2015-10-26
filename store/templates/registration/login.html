@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <h1 class='text-center'>Sign in</h1>
+        <hr>
+        <div class='row'>
+            <div class='col-md-6 col-md-offset-3'>
+                <form class="new_user" id="new_user" action="{% url 'django.contrib.auth.views.login' %}" accept-charset="UTF-8" method="post">
+                    {% csrf_token %}
+                    <div class='form-group'>
+                        <label for="id_username">Username</label>
+                        <input class="form-control" type="text" name="username" id="id_username" />
+                    </div>
+                    <div class='form-group'>
+                        <label for="id_password">Password</label>
+                        <input class="form-control" type="password" name="password" id="id_password" />
+                    </div>
+                    <div class='checkbox'>
+                        <label for="user_remember_me">
+                            <input name="user[remember_me]" type="hidden" value="0" />
+                            <input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" /> Remember me on this computer
+                        </label>
+                    </div>
+                    <div>
+                        <input type="submit" name="commit" value="Sign in" class="btn btn-lg btn-primary btn-block" />
+                    </div>
+                </form>
+                <div class='form-suggestion-footer text-center'>
+                    <a href="{% url 'registration_register' %}">Sign up</a>, if you do not have account yet.
+                </div>
+            </div>
+        </div>
+{% endblock %}

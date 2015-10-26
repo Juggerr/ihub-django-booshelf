@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block content %}
+
+<div class='row'>
+    <form action='/books/' class='form-inline search-book-form'>
+        <div class='form-group col-md-6'>
+            <input type="text" name="keywords" id="keywords" class="form-control search-book-title" />
+        </div>
+        <button class='btn btn-primary' type='submit'>Search</button>
+        <div class='form-group col-md-6 book-search-by'>
+            <span>Search book by title, author, isbn or amazon id</span>
+            <a class="radio-inline" href="http://ihub-rails-bookshelf.herokuapp.com/">Reset</a>
+        </div>
+    </form>
+</div>
+
+<div class='pull-left'></div>
+<div class='pull-right book-count-block'>
+    <p class='text-info'>
+        {{ page_obj.paginator.count }} books in the catalog
+    </p>
+</div>
+<div class='clearfix'></div>
+
+{% if is_paginated %}
+    <div class="pagination">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="prev previous_page">
+                    <a href="/?page={{ page_obj.previous_page_number }}">&#8592; Previous</a>
+                </li>
+            {% else %}
+                <li class="prev previous_page disabled">
+                    <a href="#">&#8592; Previous</a>
+                </li>
+            {% endif %}
+            
+            {% for page in page_obj.paginator.page_range %}
+                <li class="{% if page_obj.number == page  %}active{% endif %}">
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li class="next next_page">
+                    <a rel="next" href="/?page={{ page_obj.next_page_number }}">Next &#8594;</a>
+                </li>
+            {% else %}
+                <li class="next next_page disabled">
+                    <a rel="next" href="#">Next &#8594;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+
+{% for book in book_list %}
+
+
+    <div class='row'>
+        <div class='col-md-2 book-cover'>
+            <a title="{{ book.title }}" href="{% url 'book' book.pk %}">
+                <img alt="{{ book.title }}" src="http://images.amazon.com/images/P/{{ book.amazon_id }}.01.ZTZZZZZZ.jpg" />
+            </a>
+        </div>
+        <div class='col-md-8 book-info-block'>
+            <h2><a title="{{ book.title }}" href="{% url 'book' book.pk %}">{{ book.title }}</a></h2>
+            <h5>{{ book.author }}</h5>
+            <p>
+                <strong>ISBN-10: </strong>{{ book.isbn }}
+            </p>
+            <p>
+                <strong>Published: </strong>{{ book.pub_date }}
+            </p>
+            <p>
+                {{ book.description|safe }}
+            </p>
+        </div>
+        <div class='col-md-2 book-price-block'>
+            <p class='price-box text-center'>${{ book.price }}</p>
+            <div class='text-center'>
+                {% if user.is_authenticated %}
+                    {% if user.userinfo|args:book|call:"has_book_in_shopping_cart" %}
+                        <input class="btn btn-md add-to-cart-btn" disabled="disabled" type="submit" value="Added">
+                    {% else %}
+                        <form class="button_to" method="post" action="{% url 'book-add-to-cart' %}">
+                            {% csrf_token %}
+                            <input class="btn btn-md btn-primary add-to-cart-btn" type="submit" value="Add to cart" />
+                            <input type="hidden" name="book_id" value="{{ book.id }}" />
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+    
+        </div>
+    </div>
+    <hr>
+{% endfor %}
+
+{% if is_paginated %}
+    <div class="pagination">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="prev previous_page">
+                    <a href="/?page={{ page_obj.previous_page_number }}">&#8592; Previous</a>
+                </li>
+            {% else %}
+                <li class="prev previous_page disabled">
+                    <a href="#">&#8592; Previous</a>
+                </li>
+            {% endif %}
+            
+            {% for page in page_obj.paginator.page_range %}
+                <li class="{% if page_obj.number == page  %}active{% endif %}">
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li class="next next_page">
+                    <a rel="next" href="/?page={{ page_obj.next_page_number }}">Next &#8594;</a>
+                </li>
+            {% else %}
+                <li class="next next_page disabled">
+                    <a rel="next" href="#">Next &#8594;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load store_tags %}
+
+{% block content %}
+    <div class='row'>
+        <div class='col-md-6 col-md-offset-3'>
+            <form class="new_user" id="new_user" action="" accept-charset="UTF-8" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                        {{ field|addcss:"form-control" }}
+                        {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div>
+                    <input type="submit" name="commit" value="Save" class="btn btn-lg btn-primary btn-block" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

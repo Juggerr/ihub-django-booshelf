@@ -1,0 +1,94 @@
+        body {
+            background-color: #f6f8f9;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .book-price-block {
+            background: #eee;
+            padding-bottom: 30px
+        }
+        .price-box {
+            font-size: 3em;
+            margin-top: 50px;
+        }
+        .book-count-block p {
+            margin-top: 35px;
+            font-size: 1.3em;
+        }
+        .search-book-form .search-book-title {
+            width: 100%;
+            font-size: 1.2em;
+        }
+        .navbar .nav-user-name {
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-right: 20px;
+        }
+        .navbar>.container-fluid .navbar-brand {
+            margin-left: -15px;
+        }
+        .navbar-header,
+        .navbar .navbar-user {
+            padding-top: 10px;
+            height: 70px;
+        }
+        .badge {
+            font-size: 15px;
+        }
+        .book-search-by {
+            margin-top: 5px;
+        }
+        .add-to-cart-btn {
+            margin-top: 21px;
+        }
+        .user-profile-info {
+            font-size: 1.2em
+        }
+        .user-profile-info dt {
+            font-weight: normal;
+            width: 60px
+        }
+        .user-profile-info dd {
+            padding-bottom: 10px;
+            margin-left: 80px
+        }
+        .alert-big {
+            font-size: 18px;
+        }
+        .order-history-row ul li a {
+            font-size: 1.1em;
+        }
+        .order-history-row .order-books-amount {
+            font-size: 1.2em;
+        }
+        .order-history-row .order-books {
+            font-size: 1em;
+        }
+        .order-history-row .order-details {
+            font-size: 2em;
+        }
+        .order-history-row ul li {
+            padding: 3px 0;
+        }
+        .orders-history-alert {
+            font-size: 1.2em;
+        }
+        .shopping-cart-price-box {
+          font-size: 2em;
+          margin-top: 20px;
+        }
+        .shopping-cart-info-message {
+          height: 67px;
+          font-size: 20px;
+          overflow: hidden;
+        }
+        .shopping-cart-info-message span {
+          font-weight: bold;
+        }
+        .recent-reviews .review-data div {
+          margin-right: 20px;
+        }
+        .form-suggestion-footer {
+          margin-top: 20px;
+          font-size: 1.1em;
+        }

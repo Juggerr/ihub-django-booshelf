@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block content %}
+
+<h1 class="text-center">Orders history</h1>
+<hr/> 
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="alert alert-info text-center orders-history-alert">
+            You spent ${{ order_list|get_total_price_order }} for {{ order_list|length }} orders
+        </div>
+        {% for order in order_list %}
+            <hr>
+            <div class="row order-history-row">
+                <div class="col-md-4 text-center">
+                    <p class="order-details">${{ order.total_price}}</p>
+                    <p class="order-books">{{ order.created_at }}</p>
+                </div>
+                <div class="col-md-8">
+                    <p class="order-books-amount">{{ order.orderitem_set.all|length }} books have been purchased</p>
+                    <ul>
+                        {% for order_item in order.orderitem_set.all %}
+                            <li><a href="{% url 'book' order_item.book.pk %}">{{ order_item.book.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

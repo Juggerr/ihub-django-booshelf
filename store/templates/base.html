@@ -1,0 +1,74 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BookShelf</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+</head>
+
+<body>
+    <div class='container'>
+        <nav class='navbar navbar-default'>
+            <div class='container-fluid'>
+                <div class='navbar-header'>
+                    <a class='navbar-brand' href='/'>Rails bookshelf</a>
+                </div>
+                <div class='navbar-collapse collapse' id='navbar'>
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <ul class='nav navbar-nav navbar-right'>
+                                <li class='dropdown'>
+                                    <a aria-expanded='false' class='dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
+                                        <img src="http://www.gravatar.com/avatar/77864601526fc73452f5c7f942ac4ff4?s=40" alt="77864601526fc73452f5c7f942ac4ff4?s=40" />
+                                        <span class='caret'></span>
+                                    </a>
+                                    <ul class='dropdown-menu' role='menu'>
+                                        <li><a href="{% url 'user-detail' user.pk %}">Profile</a></li>
+                                        <li><a href="{% url 'shopping-cart' %}">Shopping cart</a></li>
+                                        <li><a href="{% url 'orders' %}">Orders history</a></li>
+                                        <li class='divider'></li>
+                                        <li class='dropdown-header'>Admin</li>
+                                        <li><a href="{% url 'book-add' %}">Add book</a></li>
+                                        <li class='divider'></li>
+                                        <li><a rel="nofollow" data-method="delete" href="{% url 'auth_logout' %}?next=/">Sign out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {% endif %}
+                        <ul class='nav navbar-nav navbar-right navbar-user'>
+                            <li class='nav-user-name'>
+                                <span>
+                                    Hi, {{ user.first_name }}
+                                </span>
+                            </li>
+                            <li>
+                                <a href="{% url 'shopping-cart' %}">
+                                    <span aria-hidden='true' class='glyphicon glyphicon-shopping-cart'></span>
+                                    <span class='badge'>
+                                        ${{ user.userinfo.shopping_cart_total_price|default:0.00|floatformat:2 }}
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                    <ul class="nav navbar-nav navbar-right navbar-user">
+                        <li>
+                            <a href="{% url 'auth_login' %}">Sign in</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                </div>
+            </div>
+        </nav>
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
